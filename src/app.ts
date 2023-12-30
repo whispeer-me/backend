@@ -1,10 +1,11 @@
 import express from "express";
+import cors from "cors";
 import path from "path";
 import log from "./utils/logger";
 import routes from "./routes";
 
-if (process.env.API_BASE_URL === undefined) {
-  log.error("API_BASE_URL environment hasn't been set.");
+if (process.env.CORS_ORIGIN === undefined) {
+  log.error("CORS_ORIGIN environment variable hasn't been set. Exiting...");
   process.exit(1);
 }
 
@@ -22,6 +23,11 @@ app.use(
     lastModified: false,
   })
 );
+const corsOptions = {
+  origin: `https://${process.env.CORS_ORIGIN}`,
+};
+
+app.use(cors(corsOptions));
 
 app.listen(port, () => {
   log.info(`Server started at port ${port}`);
