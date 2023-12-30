@@ -1,7 +1,7 @@
 {
-  "name": "fly-io-nodejs-typescript",
+  "name": "whispeer-me-backend",
   "version": "1.0.0",
-  "description": "A sample NodeJS application that written in TypeScript and ready to deploy fly.io",
+  "description": "",
   "main": "dist/app.js",
   "scripts": {
     "dev": "nodemon --config nodemon.json src/app.ts",
@@ -9,17 +9,9 @@
     "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nesimtunc/fly-io-nodejs-typescript.git"
-  },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/nesimtunc/fly-io-nodejs-typescript/issues"
-  },
-  "homepage": "https://github.com/nesimtunc/fly-io-nodejs-typescript#readme",
   "dependencies": {
     "axios": "^0.26.0",
     "cors": "^2.8.5",
