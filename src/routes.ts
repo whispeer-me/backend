@@ -1,10 +1,14 @@
 import { Express, Request, Response, NextFunction } from "express";
 import TodoController from "./controllers/todo.controller";
 import log from "./utils/logger";
+import MessageController from "./controllers/message.controller";
 
 export default function (app: Express) {
   const todoController = new TodoController();
+  const messageController = new MessageController();
+
   app.get("/todos", todoController.getTodos);
+  app.get("/message/:id", messageController.get);
   app.get("/ping", (_req: Request, res: Response) => {
     res.send("pong");
   });
