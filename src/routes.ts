@@ -9,6 +9,7 @@ export default function (app: Express) {
 
   app.get("/todos", todoController.getTodos);
   app.get("/message/:id", messageController.get);
+  app.post("/message", messageController.create);
   app.get("/ping", (_req: Request, res: Response) => {
     res.send("pong");
   });

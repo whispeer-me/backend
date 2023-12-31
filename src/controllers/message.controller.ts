@@ -21,4 +21,25 @@ export default class MessageController extends BaseController {
       return this.error(res, error as Error);
     }
   };
+
+  create = async (req: Request, res: Response) => {
+    try {
+      let content = req.body.content;
+      let isPrivate = req.body.isPrivate;
+
+      let id = Math.random().toString(36).substr(2, 9);
+
+      const message: Message = {
+        id: id,
+        content: content,
+        isPrivate: isPrivate,
+        viewCount: 42,
+        createdAt: new Date(),
+      };
+
+      return this.success(res, message);
+    } catch (error) {
+      return this.error(res, error as Error);
+    }
+  };
 }
