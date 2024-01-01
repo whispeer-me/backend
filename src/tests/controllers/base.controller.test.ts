@@ -1,5 +1,5 @@
 import { Response } from "express";
-import BaseController from "../../src/controllers/base.controller";
+import BaseController from "../../controllers/base.controller";
 
 describe("BaseController", () => {
   let baseController: BaseController;

@@ -7,7 +7,7 @@
     "dev": "nodemon --config nodemon.json src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
-    "test": "jest"
+    "test": "jest --config ./src/jest.config.ts"
   },
   "keywords": [],
   "author": "",
