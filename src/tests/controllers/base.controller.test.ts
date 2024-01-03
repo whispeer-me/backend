@@ -27,7 +27,7 @@ describe("BaseController", () => {
   });
 
   test("notfound should send 404 status and default message if no message is provided", () => {
-    baseController.notfound(res);
+    baseController.notFound(res);
 
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.send).toHaveBeenCalledWith({
@@ -38,7 +38,7 @@ describe("BaseController", () => {
   test("notfound should send 404 status and provided message", () => {
     const message = "Custom Not Found";
 
-    baseController.notfound(res, message);
+    baseController.notFound(res, message);
 
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.send).toHaveBeenCalledWith({

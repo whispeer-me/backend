@@ -6,7 +6,7 @@ class BaseController {
     return res.status(200).send({ data });
   }
 
-  notfound(res: Response, message?: string) {
+  notFound(res: Response, message?: string) {
     return res.status(404).send({
       data: { message: message === undefined ? "Not Found" : message },
     });
