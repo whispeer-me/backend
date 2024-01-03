@@ -1,20 +1,24 @@
 import { Request, Response } from "express";
 import BaseController from "./base.controller";
 
-import {Message} from "../models/message";
+import { Message } from "../models/message";
+
+// In-memory storage
+const messages: Message[] = [];
+
+// Hello World! Programming is awesome! Enjoy it while you can.
 
 export default class MessageController extends BaseController {
-
   get = async (req: Request, res: Response) => {
     try {
-      const message: Message = {
-        id: req.params.id,
-        content: "Hello World! Programming is awesome! Enjoy it while you can.",
-        isPrivate: false,
-        viewCount: 42,
-        // Create an hour ago
-        createdAt: new Date(Date.now() - 1000 * 60 * 60),
-      };
+     
+      // Find the message in memory by id
+      const message = messages.find((message) => message.id === req.params.id);
+
+      // If the message is not found
+      if (!message) {
+        return this.notFound(res, "Message not found");
+      }
 
       return this.success(res, message);
     } catch (error) {
@@ -24,18 +28,25 @@ export default class MessageController extends BaseController {
 
   create = async (req: Request, res: Response) => {
     try {
-      let content = req.body.content;
-      let isPrivate = req.body.isPrivate;
+
+      console.log("message is creating", req.body);
 
       let id = Math.random().toString(36).substr(2, 9);
 
       const message: Message = {
         id: id,
-        content: content,
-        isPrivate: isPrivate,
+        content: req.body.content,
+        iv: req.body.iv,
+        salt: req.body.salt,
+        isPrivate: req.body.isPrivate,
         viewCount: 42,
         createdAt: new Date(),
       };
+
+      // Save the message in memory
+      messages.push(message);
+
+      console.log("message is created", message);
 
       return this.success(res, message);
     } catch (error) {
