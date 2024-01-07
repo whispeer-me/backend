@@ -5,6 +5,7 @@ import MessageController from "./controllers/message.controller";
 export default function (app: Express) {
   const messageController = new MessageController();
 
+  app.get("/message/stats", messageController.stats);
   app.get("/message/:id", messageController.get);
   app.post("/message", messageController.create);
   app.get("/ping", (_req: Request, res: Response) => {
