@@ -18,7 +18,9 @@
     "dayjs": "^1.10.7",
     "express": "^4.17.3",
     "memory-cache": "^0.2.0",
+    "node-pg-migrate": "^6.2.2",
     "npm": "^8.5.1",
+    "pg": "^8.11.3",
     "pino": "^7.8.0",
     "pino-pretty": "^7.5.1"
   },
