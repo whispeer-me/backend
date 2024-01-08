@@ -3,7 +3,7 @@ export interface Message {
   content: string;
   salt: string | undefined;
   iv: string | undefined;
-  isPrivate: boolean;
-  viewCount: number;
-  createdAt: Date;
+  is_private: boolean;
+  view_count?: number;
+  created_at?: Date;
 }
