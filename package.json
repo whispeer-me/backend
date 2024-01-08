@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
+    "prestart": "node-pg-migrate up",
     "dev": "nodemon --config nodemon.json src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
@@ -16,6 +17,7 @@
     "axios": "^0.26.0",
     "cors": "^2.8.5",
     "dayjs": "^1.10.7",
+    "dotenv": "^16.3.1",
     "express": "^4.17.3",
     "memory-cache": "^0.2.0",
     "node-pg-migrate": "^6.2.2",
