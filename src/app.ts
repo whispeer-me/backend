@@ -4,6 +4,8 @@ import path from "path";
 import log from "./utils/logger";
 import routes from "./routes";
 
+require("dotenv").config();
+
 const port = (process.env.PORT || 3000) as number;
 
 export const app = express();
