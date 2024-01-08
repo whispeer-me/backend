@@ -76,17 +76,16 @@ export class MessageService {
 
   async getStats(): Promise<{
     totalMessages: number;
-    messagesExpiring: Message[];
+    messagesExpiring: number;
   }> {
-    // Query to get the total number of messages
-    const totalQuery = "SELECT COUNT(*) FROM messages";
-    const totalResult = await this.pool.query(totalQuery);
-    const totalMessages = parseInt(totalResult.rows[0].count);
+    const getTotalCount = async (tableName: string): Promise<number> => {
+      const query = `SELECT COUNT(*) FROM ${tableName}`;
+      const result = await this.pool.query(query);
+      return parseInt(result.rows[0].count);
+    };
 
-    // Query to get messages that are expiring in 24 hours
-    const expiringQuery = `SELECT * FROM messages WHERE created_at > NOW() - INTERVAL '24 hours'`;
-    const expiringResult = await this.pool.query(expiringQuery);
-    const messagesExpiring = expiringResult.rows;
+    const totalMessages = await getTotalCount("archived_ids");
+    const messagesExpiring = await getTotalCount("messages");
 
     return { totalMessages, messagesExpiring };
   }
