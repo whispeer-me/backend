@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import crypto from "crypto";
 
 import BaseController from "./base.controller";
 import { Message } from "../models/message";
 import { MessageService } from "../services/MessageService";
 import { Log } from "../utils/log";
 import { IDatabasePool } from "../db/IDatabasePool";
+import { IDGenerator } from "../utils/id.generator";
 
 // Hello World! Programming is awesome! Enjoy it while you can.
 
@@ -37,7 +37,7 @@ export default class MessageController extends BaseController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const id = crypto.randomBytes(5).toString("hex");
+      const id = IDGenerator.generate(8);
       const newMessage: Message = {
         id,
         content: req.body.content,
