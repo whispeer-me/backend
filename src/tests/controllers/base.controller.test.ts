@@ -1,12 +1,16 @@
 import { Response } from "express";
 import BaseController from "../../controllers/base.controller";
+import { DummyLogger } from "../utils/dummy.logger";
 
 describe("BaseController", () => {
+  let dummyLogger: DummyLogger;
   let baseController: BaseController;
   let res: Response;
 
   beforeEach(() => {
-    baseController = new BaseController();
+    dummyLogger = new DummyLogger();
+
+    baseController = new BaseController(dummyLogger);
     res = {
       status: jest.fn().mockReturnThis(),
       send: jest.fn(),
@@ -53,7 +57,7 @@ describe("BaseController", () => {
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.send).toHaveBeenCalledWith({
-      data: { message: "Error occured and logged." },
+      data: { message: "Error occurred and logged." },
     });
   });
 

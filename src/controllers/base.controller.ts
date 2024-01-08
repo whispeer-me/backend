@@ -1,7 +1,13 @@
 import { Response } from "express";
-import log from "../utils/logger";
+import { Log } from "../utils/log";
 
 class BaseController {
+  logger: Log;
+
+  constructor(logger: Log) {
+    this.logger = logger;
+  }
+
   success(res: Response, data: unknown) {
     return res.status(200).send({ data });
   }
@@ -13,10 +19,10 @@ class BaseController {
   }
 
   error(res: Response, error: Error, message?: string) {
-    log.error(error);
+    this.logger.error(error);
     return res.status(500).send({
       data: {
-        message: message === undefined ? "Error occured and logged." : message,
+        message: message === undefined ? "Error occurred and logged." : message,
       },
     });
   }

@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
-import log from "./utils/logger";
+import log from "./utils/whispeer.logger";
 import routes from "./routes";
 
 require("dotenv").config();

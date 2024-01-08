@@ -1,9 +1,13 @@
 import { Express, Request, Response, NextFunction } from "express";
-import log from "./utils/logger";
+import { AppLogger } from "./utils/whispeer.logger";
 import MessageController from "./controllers/message.controller";
 
+// Create app logger
+
+let logger = new AppLogger();
+
 export default function (app: Express) {
-  const messageController = new MessageController();
+  const messageController = new MessageController(logger);
 
   app.get("/message/stats", messageController.stats);
   app.get("/message/:id", messageController.get);
