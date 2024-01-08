@@ -1,9 +1,9 @@
 export interface Message {
-  id: string;
+  id: string | undefined;
   content: string;
   salt: string | undefined;
   iv: string | undefined;
   is_private: boolean;
-  view_count?: number;
-  created_at?: Date;
+  view_count: number | undefined;
+  created_at: Date | undefined;
 }

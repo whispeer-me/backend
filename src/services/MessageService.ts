@@ -1,5 +1,6 @@
 import { IDatabasePool } from "../db/IDatabasePool";
 import { Message } from "../models/message";
+import { IDGenerator } from "../utils/id.generator";
 
 export class MessageService {
   private pool: IDatabasePool;
@@ -16,13 +17,14 @@ export class MessageService {
   }
 
   async createMessage(messageData: Message): Promise<Message> {
+    let id = await this.createUniqueIdForMessage();
     const query = `
       INSERT INTO messages (id, content, iv, salt, is_private)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
     `;
     const values = [
-      messageData.id,
+      id,
       messageData.content,
       messageData.iv,
       messageData.salt,
@@ -30,6 +32,37 @@ export class MessageService {
     ];
     const { rows } = await this.pool.query(query, values);
     return rows[0];
+  }
+
+  async createUniqueIdForMessage(attempt = 0): Promise<String> {
+    let id = IDGenerator.generate(8);
+    const query = `INSERT INTO archived_ids (id) VALUES ($1)`;
+
+    try {
+      await this.pool.query(query, [id]);
+      return id;
+    } catch (err) {
+      if (err instanceof Error) {
+        let pgUniqueViolationErrorCode = "23505";
+        const pgError = err as any; // Cast to 'any' or a more specific error type if you have one
+        if (pgError.code === pgUniqueViolationErrorCode) {
+          // Check if the error is a unique violation
+          if (attempt < 10) {
+            // If the maximum number of attempts has not been reached, try again
+            return this.createUniqueIdForMessage(attempt + 1);
+          } else {
+            // If the maximum number of attempts has been reached, handle the error
+            throw new Error("Failed to generate a unique ID after 10 attempts");
+          }
+        } else {
+          // If the error is not a unique violation, rethrow it or handle it as needed
+          throw err;
+        }
+      } else {
+        // If 'err' is not an instance of Error, handle or rethrow as needed
+        throw new Error("An unknown error occurred");
+      }
+    }
   }
 
   async increaseViewCount(id: string): Promise<void> {

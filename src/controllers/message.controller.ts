@@ -2,10 +2,9 @@ import { Request, Response } from "express";
 
 import BaseController from "./base.controller";
 import { Message } from "../models/message";
-import { MessageService } from "../services/MessageService";
 import { Log } from "../utils/log";
+import { MessageService } from "../services/MessageService";
 import { IDatabasePool } from "../db/IDatabasePool";
-import { IDGenerator } from "../utils/id.generator";
 
 // Hello World! Programming is awesome! Enjoy it while you can.
 
@@ -25,7 +24,9 @@ export default class MessageController extends BaseController {
         return this.notFound(res, "Message not found or has expired.");
       }
 
-      this.messageService.increaseViewCount(message.id);
+      if (message.id) {
+        this.messageService.increaseViewCount(message.id);
+      }
 
       return this.success(res, message);
     } catch (err) {
@@ -37,13 +38,15 @@ export default class MessageController extends BaseController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const id = IDGenerator.generate(8);
       const newMessage: Message = {
-        id,
         content: req.body.content,
         iv: req.body.iv,
         salt: req.body.salt,
         is_private: req.body.is_private,
+        // Will be created by the db
+        id: undefined,
+        view_count: undefined,
+        created_at: undefined,
       };
 
       const createdMessage = await this.messageService.createMessage(
