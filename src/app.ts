@@ -1,10 +1,13 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
-import log from "./utils/whispeer.logger";
+
+import { AppLogger } from "./utils/whispeer.logger";
 import routes from "./routes";
 
 require("dotenv").config();
+
+let logger = new AppLogger();
 
 const port = (process.env.PORT || 3000) as number;
 
@@ -24,7 +27,9 @@ app.use(
 // Check origin only for production
 if (process.env.NODE_ENV === "production") {
   if (process.env.CORS_ORIGIN === undefined) {
-    log.error("CORS_ORIGIN environment variable hasn't been set. Exiting...");
+    logger.error(
+      "CORS_ORIGIN environment variable hasn't been set. Exiting..."
+    );
     process.exit(1);
   }
 
@@ -38,7 +43,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(port, () => {
-  log.info(`Server started at port ${port}`);
+  logger.info(`Server started at port ${port}`);
 
   routes(app);
 });

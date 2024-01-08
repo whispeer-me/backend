@@ -1,6 +1,6 @@
 import { Response } from "express";
-import BaseController from "../../controllers/base.controller";
-import { DummyLogger } from "../utils/dummy.logger";
+import BaseController from "../../../controllers/base.controller";
+import { DummyLogger } from "../../utils/dummy.logger";
 
 describe("BaseController", () => {
   let dummyLogger: DummyLogger;

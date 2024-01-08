@@ -1,13 +1,15 @@
 import { Express, Request, Response, NextFunction } from "express";
 import { AppLogger } from "./utils/whispeer.logger";
 import MessageController from "./controllers/message.controller";
-
-// Create app logger
+import { PgPool } from "./db/PgPool";
 
 let logger = new AppLogger();
 
+require("dotenv").config();
+const dbPool = new PgPool(process.env.DATABASE_URL || "");
+
 export default function (app: Express) {
-  const messageController = new MessageController(logger);
+  const messageController = new MessageController(logger, dbPool);
 
   app.get("/message/stats", messageController.stats);
   app.get("/message/:id", messageController.get);
@@ -37,8 +39,13 @@ function httpsRedirection(app: Express) {
 
 function notFoundRoutes(app: Express) {
   app.use(function (req: Request, res: Response) {
-    log.warn(
-      { method: req.method, url: req.url, status: 404, body: req.body },
+    logger.warn(
+      JSON.stringify({
+        method: req.method,
+        url: req.url,
+        status: 404,
+        body: req.body,
+      }),
       "404 - NOT FOUND"
     );
     return res.status(404).send({ message: "The Route NOT FOUND!" });
@@ -55,7 +62,7 @@ function unhandledErrors(app: Express) {
     if (res.headersSent) {
       return next(err);
     }
-    log.error(err, "Unhandled error", {
+    logger.error(err, "Unhandled error", {
       method: req.method,
       url: req.url,
       status: 500,

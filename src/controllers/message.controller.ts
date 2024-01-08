@@ -1,28 +1,37 @@
 import { Request, Response } from "express";
-const crypto = require("crypto");
+import crypto from "crypto";
 
 import BaseController from "./base.controller";
 import { Message } from "../models/message";
 import { MessageService } from "../services/MessageService";
-
-const messageService = new MessageService();
+import { Log } from "../utils/log";
+import { IDatabasePool } from "../db/IDatabasePool";
 
 // Hello World! Programming is awesome! Enjoy it while you can.
 
 export default class MessageController extends BaseController {
+  private messageService: MessageService;
+
+  constructor(logger: Log, dbPool: IDatabasePool) {
+    super(logger);
+    this.messageService = new MessageService(dbPool);
+  }
+
   get = async (req: Request, res: Response) => {
     try {
-      const message = await messageService.getMessageById(req.params.id);
+      const message = await this.messageService.getMessageById(req.params.id);
 
       if (!message) {
         return this.notFound(res, "Message not found or has expired.");
       }
 
-      messageService.increaseViewCount(message.id);
+      this.messageService.increaseViewCount(message.id);
 
       return this.success(res, message);
-    } catch (error) {
-      return this.error(res, error as Error);
+    } catch (err) {
+      let error = err as Error;
+      this.logger.error(error);
+      return this.error(res, error);
     }
   };
 
@@ -37,23 +46,32 @@ export default class MessageController extends BaseController {
         is_private: req.body.is_private,
       };
 
-      const createdMessage = await messageService.createMessage(newMessage);
+      const createdMessage = await this.messageService.createMessage(
+        newMessage
+      );
 
       return this.success(res, createdMessage);
-    } catch (error) {
+    } catch (err) {
+      let error = err as Error;
+      this.logger.error(error);
       return this.error(res, error as Error);
     }
   };
 
   stats = async (_: Request, res: Response) => {
-    const stats = await messageService.getStats();
+    try {
+      const stats = await this.messageService.getStats();
 
-    const totalMessages = stats.totalMessages;
-    const messagesExpiring = stats.messagesExpiring;
+      const totalMessages = stats.totalMessages;
+      const messagesExpiring = stats.messagesExpiring;
 
-    return this.success(res, {
-      totalMessages,
-      messagesExpiring,
-    });
+      return this.success(res, {
+        totalMessages,
+        messagesExpiring,
+      });
+    } catch (err) {
+      let error = err as Error;
+      this.logger.error(error);
+    }
   };
 }

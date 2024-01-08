@@ -18,9 +18,10 @@ export class AppLogger implements Log {
 
   error(message: string | Error, ...args: unknown[]): void {
     if (message instanceof Error) {
-      this.logger.error(args);
+      // Log the error message and stack trace
+      this.logger.error({ ...args, err: message }, message.message);
     } else {
-      this.logger.error({ args }, message);
+      this.logger.error({ ...args }, message);
     }
   }
 
