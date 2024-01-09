@@ -65,13 +65,7 @@ export default class MessageController extends BaseController {
     try {
       const stats = await this.messageService.getStats();
 
-      const totalMessages = stats.totalMessages;
-      const messagesExpiring = stats.messagesExpiring;
-
-      return this.success(res, {
-        totalMessages,
-        messagesExpiring,
-      });
+      return this.success(res, stats);
     } catch (err) {
       let error = err as Error;
       this.logger.error(error);

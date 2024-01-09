@@ -75,18 +75,39 @@ export class MessageService {
   }
 
   async getStats(): Promise<{
-    totalMessages: number;
-    messagesExpiring: number;
+    total_created_count: number;
+    total_view_count: number;
+    expiring_soon_count: number;
   }> {
+    const getMessageStats = async (): Promise<{
+      total_created_count: number;
+      total_view_count: number;
+    }> => {
+      const query = `SELECT total_created_count, total_view_count FROM message_stats where id = 1`;
+      const result = await this.pool.query(query);
+      let row = result.rows[0];
+      return {
+        total_created_count: row.total_created_count,
+        total_view_count: row.total_view_count,
+      };
+    };
+
     const getTotalCount = async (tableName: string): Promise<number> => {
       const query = `SELECT COUNT(*) FROM ${tableName}`;
       const result = await this.pool.query(query);
+      if (result.rows.length === 0) {
+        return 0;
+      }
       return parseInt(result.rows[0].count);
     };
 
-    const totalMessages = await getTotalCount("archived_ids");
-    const messagesExpiring = await getTotalCount("messages");
+    const { total_created_count, total_view_count } = await getMessageStats();
+    const expiring_soon_count = await getTotalCount("messages");
 
-    return { totalMessages, messagesExpiring };
+    return {
+      total_created_count,
+      total_view_count,
+      expiring_soon_count,
+    };
   }
 }
