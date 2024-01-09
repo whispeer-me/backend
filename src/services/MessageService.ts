@@ -92,8 +92,8 @@ export class MessageService {
       };
     };
 
-    const getTotalCount = async (tableName: string): Promise<number> => {
-      const query = `SELECT COUNT(*) FROM ${tableName}`;
+    const getExpiringCount = async (): Promise<number> => {
+      const query = `SELECT COUNT(*) FROM messages`;
       const result = await this.pool.query(query);
       if (result.rows.length === 0) {
         return 0;
@@ -102,7 +102,7 @@ export class MessageService {
     };
 
     const { total_created_count, total_view_count } = await getMessageStats();
-    const expiring_soon_count = await getTotalCount("messages");
+    const expiring_soon_count = await getExpiringCount();
 
     return {
       total_created_count,
