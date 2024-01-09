@@ -18,20 +18,39 @@ export class MessageService {
 
   async createMessage(messageData: Message): Promise<Message> {
     let id = await this.createUniqueIdForMessage();
-    const query = `
+    const insertMessageQuery = `
       INSERT INTO messages (id, content, iv, salt, is_private)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
     `;
-    const values = [
+    const messageValues = [
       id,
       messageData.content,
       messageData.iv,
       messageData.salt,
       messageData.is_private,
     ];
-    const { rows } = await this.pool.query(query, values);
-    return rows[0];
+
+    const updateStatsQuery = `
+      UPDATE message_stats
+      SET total_created_count = total_created_count + 1
+      WHERE id = 1;
+    `;
+
+    await this.pool.query("BEGIN");
+
+    try {
+      const { rows: messageRows } = await this.pool.query(
+        insertMessageQuery,
+        messageValues
+      );
+      await this.pool.query(updateStatsQuery);
+      await this.pool.query("COMMIT");
+      return messageRows[0];
+    } catch (err) {
+      await this.pool.query("ROLLBACK");
+      throw err;
+    }
   }
 
   async createUniqueIdForMessage(attempt = 0): Promise<String> {
@@ -66,12 +85,28 @@ export class MessageService {
   }
 
   async increaseViewCount(id: string): Promise<void> {
-    const query = `
+    const updateMessageQuery = `
       UPDATE messages
       SET view_count = view_count + 1
       WHERE id = $1;
     `;
-    await this.pool.query(query, [id]);
+
+    const updateStatsQuery = `
+      UPDATE message_stats
+      SET total_view_count = total_view_count + 1
+      WHERE id = 1;
+    `;
+
+    await this.pool.query("BEGIN");
+
+    try {
+      await this.pool.query(updateMessageQuery, [id]);
+      await this.pool.query(updateStatsQuery);
+      await this.pool.query("COMMIT");
+    } catch (err) {
+      await this.pool.query("ROLLBACK");
+      throw err;
+    }
   }
 
   async getStats(): Promise<{
