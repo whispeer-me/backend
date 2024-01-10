@@ -10,7 +10,8 @@ RUN npm ci
 
 COPY --chown=node:node . .
 RUN npm run build \
-    && npm prune --production
+    && npm prune --production \
+    && npm install node-pg-migrate # Ensure node-pg-migrate is installed
 
 FROM node:16-alpine
 
@@ -18,10 +19,14 @@ ENV NODE_ENV production
 
 WORKDIR /home/node
 
+COPY --from=builder --chown=node:node /home/node/entrypoint.sh ./
 COPY --from=builder --chown=node:node /home/node/package*.json ./
 COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /home/node/dist/ ./dist/
-COPY --from=builder --chown=node:node /home/node/static/ ./static/
+COPY --from=builder --chown=node:node /home/node/migrations ./migrations/
+
+# Run migrations
+RUN npm run prestart
 
 USER node
-CMD ["node", "dist/app.js"]
+ENTRYPOINT ["./entrypoint.sh"]
