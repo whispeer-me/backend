@@ -25,8 +25,5 @@ COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /home/node/dist/ ./dist/
 COPY --from=builder --chown=node:node /home/node/migrations ./migrations/
 
-# Run migrations
-RUN npm run prestart
-
 USER node
 ENTRYPOINT ["./entrypoint.sh"]
