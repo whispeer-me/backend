@@ -9,6 +9,11 @@ export class AppLogger implements Log {
     base: {
       pid: false,
     },
+    prettyPrint: {
+      colorize: true,
+      translateTime: "SYS:standard",
+      ignore: "pid,hostname",
+    },
     timestamp: () => `,"time":"${dayjs().format()}"`,
   });
 
