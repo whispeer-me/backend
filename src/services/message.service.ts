@@ -33,7 +33,7 @@ export class MessageService {
 
     const updateStatsQuery = `
       UPDATE message_stats
-      SET total_created_count = total_created_count + 1
+      SET created_count = created_count + 1
       WHERE id = 1;
     `;
 
@@ -93,7 +93,7 @@ export class MessageService {
 
     const updateStatsQuery = `
       UPDATE message_stats
-      SET total_view_count = total_view_count + 1
+      SET view_count = view_count + 1
       WHERE id = 1;
     `;
 
@@ -118,20 +118,20 @@ export class MessageService {
   }
 
   async getStats(): Promise<{
-    total_created_count: number;
-    total_view_count: number;
+    created_count: number;
+    view_count: number;
     expiring_soon_count: number;
   }> {
     const getMessageStats = async (): Promise<{
-      total_created_count: number;
-      total_view_count: number;
+      created_count: number;
+      view_count: number;
     }> => {
-      const query = `SELECT total_created_count, total_view_count FROM message_stats where id = 1`;
+      const query = `SELECT created_count, view_count FROM message_stats where id = 1`;
       const result = await this.pool.query(query);
       let row = result.rows[0];
       return {
-        total_created_count: row.total_created_count,
-        total_view_count: row.total_view_count,
+        created_count: row.created_count,
+        view_count: row.view_count,
       };
     };
 
@@ -144,12 +144,12 @@ export class MessageService {
       return parseInt(result.rows[0].count);
     };
 
-    const { total_created_count, total_view_count } = await getMessageStats();
+    const { created_count, view_count } = await getMessageStats();
     const expiring_soon_count = await getExpiringCount();
 
     return {
-      total_created_count,
-      total_view_count,
+      created_count,
+      view_count,
       expiring_soon_count,
     };
   }

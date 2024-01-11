@@ -3,12 +3,12 @@
 exports.up = pgm => {
   pgm.createTable('message_stats', {
     id: 'id', // auto-incrementing integer id
-    total_created_count: {
+    created_count: {
       type: 'integer',
       notNull: true,
       default: 0
     },
-    total_view_count: {
+    view_count: {
       type: 'integer',
       notNull: true,
       default: 0
@@ -27,7 +27,7 @@ exports.up = pgm => {
 
 
   // Let's insert an initial row
-  pgm.sql('INSERT INTO message_stats (total_created_count, total_view_count) VALUES (0, 0)');
+  pgm.sql('INSERT INTO message_stats (created_count, view_count) VALUES (0, 0)');
 
 };
 
