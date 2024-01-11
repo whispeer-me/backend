@@ -1,8 +1,8 @@
 import { CronJob } from "cron";
-import { IDatabasePool } from "../db/IDatabasePool";
-import { MessageService } from "../services/MessageService";
-import { Log } from "../utils/log";
-import { JobService } from "./JobService";
+import { IDatabasePool } from "../interfaces/db/IDatabasePool";
+import { MessageService } from "../services/message.service";
+import { Log } from "../interfaces/utils/ILog";
+import { JobService } from "../services/job.service";
 
 export class DeleteMessageJob {
   // Yeah tightly coupled to `MessageService` for now.

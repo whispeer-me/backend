@@ -1,7 +1,7 @@
 import { Express, Request, Response, NextFunction } from "express";
 import MessageController from "./controllers/message.controller";
-import { IDatabasePool } from "./db/IDatabasePool";
-import { Log } from "./utils/log";
+import { IDatabasePool } from "./interfaces/db/IDatabasePool";
+import { Log } from "./interfaces/utils/ILog";
 
 export default function (app: Express, logger: Log, dbPool: IDatabasePool) {
   const messageController = new MessageController(logger, dbPool);

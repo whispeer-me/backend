@@ -1,4 +1,4 @@
-import { IDatabasePool } from "../db/IDatabasePool";
+import { IDatabasePool } from "../interfaces/db/IDatabasePool";
 import { Message } from "../models/message";
 import { IDGenerator } from "../utils/id.generator";
 

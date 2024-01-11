@@ -1,7 +1,7 @@
 import pino from "pino";
 import dayjs from "dayjs";
 
-import { Log } from "./log";
+import { Log } from "../interfaces/utils/ILog";
 
 export class AppLogger implements Log {
   private logger = pino({

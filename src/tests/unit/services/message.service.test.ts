@@ -1,6 +1,6 @@
-import { MessageService } from "../../../services/MessageService";
+import { MessageService } from "../../../services/message.service";
 import { Message } from "../../../models/message";
-import { IDatabasePool } from "../../../db/IDatabasePool";
+import { IDatabasePool } from "../../../interfaces/db/IDatabasePool";
 
 describe("MessageService", () => {
   let messageService: MessageService;
