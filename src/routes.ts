@@ -1,14 +1,9 @@
 import { Express, Request, Response, NextFunction } from "express";
-import { AppLogger } from "./utils/whispeer.logger";
 import MessageController from "./controllers/message.controller";
-import { PgPool } from "./db/PgPool";
+import { IDatabasePool } from "./db/IDatabasePool";
+import { Log } from "./utils/log";
 
-let logger = new AppLogger();
-
-require("dotenv").config();
-const dbPool = new PgPool(process.env.DATABASE_URL || "");
-
-export default function (app: Express) {
+export default function (app: Express, logger: Log, dbPool: IDatabasePool) {
   const messageController = new MessageController(logger, dbPool);
 
   app.get("/message/stats", messageController.stats);
@@ -21,10 +16,10 @@ export default function (app: Express) {
   httpsRedirection(app);
 
   // 500
-  unhandledErrors(app);
+  unhandledErrors(app, logger);
 
   // 404
-  notFoundRoutes(app);
+  notFoundRoutes(app, logger);
 }
 
 function httpsRedirection(app: Express) {
@@ -37,7 +32,7 @@ function httpsRedirection(app: Express) {
   });
 }
 
-function notFoundRoutes(app: Express) {
+function notFoundRoutes(app: Express, logger: Log) {
   app.use(function (req: Request, res: Response) {
     logger.warn(
       JSON.stringify({
@@ -52,7 +47,7 @@ function notFoundRoutes(app: Express) {
   });
 }
 
-function unhandledErrors(app: Express) {
+function unhandledErrors(app: Express, logger: Log) {
   app.use(function (
     err: Error,
     req: Request,

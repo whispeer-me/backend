@@ -2,12 +2,16 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 
+import { PgPool } from "./db/PgPool";
 import { AppLogger } from "./utils/whispeer.logger";
 import routes from "./routes";
+import { initializeJobs } from "./jobs";
 
 require("dotenv").config();
 
 let logger = new AppLogger();
+
+const dbPool = new PgPool(process.env.DATABASE_URL || "");
 
 const port = (process.env.PORT || 3000) as number;
 
@@ -45,5 +49,6 @@ if (process.env.NODE_ENV === "production") {
 app.listen(port, () => {
   logger.info(`Server started at port ${port}`);
 
-  routes(app);
+  routes(app, logger, dbPool);
+  initializeJobs(logger, dbPool);
 });

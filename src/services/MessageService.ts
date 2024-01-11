@@ -109,6 +109,14 @@ export class MessageService {
     }
   }
 
+  async deleteExpiredMessages(): Promise<void> {
+    const query = `
+      DELETE FROM messages
+      WHERE created_at < NOW() - INTERVAL '24 hours';
+    `;
+    await this.pool.query(query);
+  }
+
   async getStats(): Promise<{
     total_created_count: number;
     total_view_count: number;
