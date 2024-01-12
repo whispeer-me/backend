@@ -3,7 +3,7 @@
         "target": "es2016",
         "module": "commonjs",
         "outDir": "./dist",
-        "rootDir": "./src",
+        "rootDir": "./",
         "baseUrl": "./src",
         "paths": {
             "@interfaces/*": [
