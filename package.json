@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "prestart": "node-pg-migrate up",
-    "dev": "nodemon --config nodemon.json src/app.ts",
+    "dev": "nodemon -r ts-node/register -r tsconfig-paths/register src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
     "test": "jest --config ./jest.config.ts"
@@ -40,6 +40,7 @@
     "nodemon": "^2.0.15",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.5.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^4.5.5"
   }
 }
