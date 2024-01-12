@@ -4,6 +4,30 @@
         "module": "commonjs",
         "outDir": "./dist",
         "rootDir": "./src",
+        "baseUrl": "./src",
+        "paths": {
+            "@interfaces/*": [
+                "interfaces/*"
+            ],
+            "@controllers/*": [
+                "controllers/*"
+            ],
+            "@models/*": [
+                "models/*"
+            ],
+            "@services/*": [
+                "services/*"
+            ],
+            "@db/*": [
+                "db/*"
+            ],
+            "@utils/*": [
+                "utils/*"
+            ],
+            "@jobs/*": [
+                "jobs/*"
+            ],
+        },
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
@@ -12,7 +36,7 @@
     },
     "exclude": [
         "node_modules",
-        "**/*.test.ts",
-        "**/*.spec.ts"
+        "tests/",
+        "jest.config.ts"
     ]
 }

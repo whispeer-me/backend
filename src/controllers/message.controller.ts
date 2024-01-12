@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 
-import BaseController from "./base.controller";
-import { Message } from "../models/message";
-import { Log } from "../interfaces/utils/ILog";
-import { MessageService } from "../services/message.service";
-import { IDatabasePool } from "../interfaces/db/IDatabasePool";
+import BaseController from "@controllers/base.controller";
+
+import { Log } from "@interfaces/utils/ILog";
+import { IDatabasePool } from "@interfaces/db/IDatabasePool";
+
+import { Message } from "@models/message";
+import { MessageService } from "@services/message.service";
 
 // Hello World! Programming is awesome! Enjoy it while you can.
 

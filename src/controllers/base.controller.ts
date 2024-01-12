@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { Log } from "../interfaces/utils/ILog";
+import { Log } from "@interfaces/utils/ILog";
 
 class BaseController {
   logger: Log;

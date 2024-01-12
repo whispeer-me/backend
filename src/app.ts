@@ -2,10 +2,11 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 
-import { PgPool } from "./db/pg.pool";
-import { AppLogger } from "./utils/app.logger";
+import { PgPool } from "@db/pg.pool";
+import { AppLogger } from "@utils/app.logger";
+
 import routes from "./routes";
-import { initializeJobs } from "./jobs";
+import { initializeJobs } from "@jobs/index";
 
 require("dotenv").config();
 

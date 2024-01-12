@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { IDatabasePool } from "../interfaces/db/IDatabasePool";
+import { IDatabasePool } from "@interfaces/db/IDatabasePool";
 
 export class PgPool implements IDatabasePool {
   private pool: Pool;
