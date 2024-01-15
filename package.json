@@ -7,7 +7,7 @@
     "prestart": "node-pg-migrate up",
     "dev": "nodemon -r ts-node/register -r tsconfig-paths/register src/app.ts",
     "build": "tsc",
-    "start": "node dist/src/app.js",
+    "start": "node -r ts-node/register -r tsconfig-paths/register src/app.ts",
     "test": "jest"
   },
   "keywords": [],
