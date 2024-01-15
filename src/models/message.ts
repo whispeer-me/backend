@@ -6,4 +6,5 @@ export interface Message {
   is_private: boolean;
   view_count: number | undefined;
   created_at: Date | undefined;
+  expires_in: string | undefined;
 }
