@@ -24,6 +24,7 @@ describe("MessageService", () => {
       is_private: true,
       view_count: 0,
       created_at: new Date(),
+      expires_in: "1 hour",
     };
     (mockPool.query as jest.Mock).mockResolvedValue({
       rows: [mockMessage],

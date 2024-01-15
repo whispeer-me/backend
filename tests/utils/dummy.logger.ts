@@ -1,4 +1,4 @@
-import { Log } from "@interfaces/utils/ILog";
+import { Log } from "../../src/interfaces/utils/ILog";
 
 export class DummyLogger implements Log {
   info(message: string, ...args: unknown[]): void {}
