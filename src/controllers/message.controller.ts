@@ -54,7 +54,7 @@ export default class MessageController extends BaseController {
     const hoursLeft = 24 - hours;
     const minutesLeft = 60 - minutes;
 
-    let expireMessage = "This message will expire in ";
+    let expireMessage = "";
 
     if (hoursLeft > 0) {
       expireMessage += `${hoursLeft} hour${hoursLeft > 1 ? "s" : ""}`;
