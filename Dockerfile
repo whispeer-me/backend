@@ -23,6 +23,7 @@ COPY --from=builder --chown=node:node /home/node/entrypoint.sh ./
 COPY --from=builder --chown=node:node /home/node/package*.json ./
 COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /home/node/src/ ./src/
+COPY --from=builder --chown=node:node /home/node/tsconfig.json ./tsconfig.json
 COPY --from=builder --chown=node:node /home/node/migrations ./migrations/
 
 USER node

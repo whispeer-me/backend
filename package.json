@@ -7,7 +7,7 @@
     "prestart": "node-pg-migrate up",
     "dev": "nodemon -r ts-node/register -r tsconfig-paths/register src/app.ts",
     "build": "tsc",
-    "start": "node -r ts-node/register -r tsconfig-paths/register src/app.ts",
+    "start": "ts-node -r tsconfig-paths/register src/app.ts",
     "test": "jest"
   },
   "keywords": [],
@@ -39,7 +39,7 @@
     "jest": "^29.7.0",
     "nodemon": "^2.0.15",
     "ts-jest": "^29.1.1",
-    "ts-node": "^10.5.0",
+    "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^4.5.5"
   }
