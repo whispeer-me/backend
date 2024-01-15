@@ -3,4 +3,4 @@
 npm run prestart
 
 # Start the application
-exec node dist/app.js
+exec npm start
