@@ -1,4 +1,4 @@
-FROM node:16-alpine as builder
+FROM node as builder
 
 ENV NODE_ENV build
 
@@ -13,7 +13,7 @@ RUN npm run build \
     && npm prune --production \
     && npm install node-pg-migrate # Ensure node-pg-migrate is installed
 
-FROM node:16-alpine
+FROM node
 
 ENV NODE_ENV production
 
