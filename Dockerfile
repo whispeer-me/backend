@@ -1,5 +1,6 @@
 FROM node as builder
 
+ARG APP_VERSION=latest
 ENV NODE_ENV build
 
 # USER node
