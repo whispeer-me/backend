@@ -6,8 +6,8 @@
   "scripts": {
     "prestart": "node-pg-migrate up",
     "dev": "nodemon -r ts-node/register -r tsconfig-paths/register src/app.ts",
-    "build": "tsc",
-    "start": "ts-node -r tsconfig-paths/register src/app.ts",
+    "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./dist",
+    "start": "node app.js",
     "test": "jest"
   },
   "keywords": [],
@@ -25,7 +25,8 @@
     "npm": "^8.5.1",
     "pg": "^8.11.3",
     "pino": "^7.8.0",
-    "pino-pretty": "^7.5.1"
+    "pino-pretty": "^7.5.1",
+    "tscpaths": "^0.0.9"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.0",

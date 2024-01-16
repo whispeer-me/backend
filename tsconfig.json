@@ -3,9 +3,12 @@
         "target": "es2016",
         "module": "commonjs",
         "outDir": "./dist",
-        "rootDir": "./",
+        "rootDir": ".",
         "baseUrl": "./src",
         "paths": {
+            "*": [
+                "node_modules/*"
+            ],
             "@interfaces/*": [
                 "interfaces/*"
             ],
@@ -26,13 +29,14 @@
             ],
             "@jobs/*": [
                 "jobs/*"
-            ],
+            ]
         },
+        "moduleResolution": "node",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
-        "sourceMap": false,
+        "sourceMap": false
     },
     "exclude": [
         "node_modules",
