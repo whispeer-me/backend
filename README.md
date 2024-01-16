@@ -49,4 +49,4 @@ Security is a top priority for us. We adhere to best practices and regularly upd
 ## Environment Variables
 - Create `.env` file in the root directory.
 - Add `DATABASE_URL` in `.env` to point to your database.
-- Add `CROSS_ORIGIN` in `.env` to let backend know which origins are allowed to access the API.
+- Add `CORS_ORIGIN` in `.env` to let backend know which origins are allowed to access the API.
