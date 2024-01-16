@@ -17,6 +17,7 @@ const dbPool = new PgPool(process.env.DATABASE_URL || "");
 const port = (process.env.PORT || 3000) as number;
 
 export const app = express();
+app.disable("x-powered-by");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
