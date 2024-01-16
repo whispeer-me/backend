@@ -54,7 +54,7 @@ export class MessageService {
   }
 
   async createUniqueIdForMessage(attempt = 0): Promise<String> {
-    let id = IDGenerator.generate(8);
+    let id = IDGenerator.generate(10);
     const query = `INSERT INTO archived_ids (id) VALUES ($1)`;
 
     try {
